@@ -1,4 +1,4 @@
-var audio_ctx = new AudioContext(),
+var audio_ctx = new (window.webkitAudioContext||window.AudioContext)(),
 	audio_sfx_shoot,
 	audio_sfx_hit,
 	audio_sfx_hurt,
