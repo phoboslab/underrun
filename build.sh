@@ -34,4 +34,4 @@ rm build/underrun.zip
 sed -e '/GAME_SOURCE/{r build/underrun.min.js' -e 'd}' source/html-template.html > underrun.html
 zip -9 build/underrun.zip m/q2.png m/l1.png m/l2.png m/l3.png underrun.html
 ls -la build/
-mv underrun.html /build/underrun.html
+mv underrun.html build/underrun.html
