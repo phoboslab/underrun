@@ -4,7 +4,8 @@ var audio_ctx = new (window.webkitAudioContext||window.AudioContext)(),
 	audio_sfx_hurt,
 	audio_sfx_beep,
 	audio_sfx_pickup,
-	audio_sfx_terminal;
+	audio_sfx_terminal,
+	audio_sfx_explode;
 
 function audio_init(callback) {
 	sonantxr_generate_song(audio_ctx, music_dark_meat_beat, function(buffer){
@@ -28,6 +29,9 @@ function audio_init(callback) {
 	});
 	sonantxr_generate_sound(audio_ctx, sound_terminal, 156, function(buffer){
 		audio_sfx_terminal = buffer;
+	});
+	sonantxr_generate_sound(audio_ctx, sound_explode, 114, function(buffer){
+		audio_sfx_explode = buffer;
 	});
 };
 

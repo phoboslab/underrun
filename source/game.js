@@ -109,6 +109,7 @@ function load_level(id, callback) {
 			}
 		}
 
+		// Remove all spiders that spawned close to the player start
 		for (var i = 0; i < entities.length; i++) {
 			var e = entities[i];
 			if (
@@ -116,7 +117,7 @@ function load_level(id, callback) {
 				_math.abs(e.x - entity_player.x) < 64 &&
 				_math.abs(e.z - entity_player.z) < 64
 			) {
-				e._kill();
+				entities_to_kill.push(e);
 			}
 		}
 
@@ -209,6 +210,11 @@ function game_tick() {
 	camera_x = camera_x * 0.92 - entity_player.x * 0.08;
 	camera_y = camera_y * 0.92 - entity_player.y * 0.08;
 	camera_z = camera_z * 0.92 - entity_player.z * 0.08;
+
+	// add camera shake
+	camera_shake *= 0.9;
+	camera_x += camera_shake * (_math.random()-0.5);
+	camera_z += camera_shake * (_math.random()-0.5);
 
 	// health bar, render with plasma sprite
 	for (var i = 0; i < entity_player.h; i++) {

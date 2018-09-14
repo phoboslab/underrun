@@ -1,7 +1,7 @@
 
-class entity_particle_t extends entity_t {
+class entity_explosion_t extends entity_t {
 	_init() {
-		this._lifetime = 3;
+		this._lifetime = 1;
 	}
 
 	_update() {
@@ -16,5 +16,9 @@ class entity_particle_t extends entity_t {
 		if (this._lifetime < 0) {
 			this._kill();
 		}
+	}
+
+	_render() {
+		push_light(this.x, 4, this.z + 6, 1,0.7,0.3, 0.08*(1-this._lifetime));
 	}
 }

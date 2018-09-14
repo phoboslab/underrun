@@ -10,6 +10,7 @@ cat \
 	source/entity-sentry.js \
 	source/entity-particle.js \
 	source/entity-health.js \
+	source/entity-explosion.js \
 	source/sonantx-reduced.js \
 	source/music-dark-meat-beat.js \
 	source/sound-effects.js \

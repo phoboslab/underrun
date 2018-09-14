@@ -50,6 +50,13 @@ class entity_sentry_t extends entity_t {
 		this.vz = from.vz * 0.1;
 		this._spawn_particles(3);
 	}
+
+	_kill() {
+		super._kill();
+		new entity_explosion_t(this.x, 0, this.z, 0, 26);
+		camera_shake = 3;
+		audio_play(audio_sfx_explode);
+	}
 }
 
 class entity_sentry_plasma_t extends entity_t {

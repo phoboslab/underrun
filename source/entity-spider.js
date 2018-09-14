@@ -60,4 +60,11 @@ class entity_spider_t extends entity_t {
 			other._receive_damage(this, 1);
 		}
 	}
+
+	_kill() {
+		super._kill();
+		new entity_explosion_t(this.x, 0, this.z, 0, 26);
+		camera_shake = 1;
+		audio_play(audio_sfx_explode);
+	}
 }

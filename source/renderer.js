@@ -19,7 +19,7 @@ var
 	light_data = new Float32Array(max_lights*7), // 32 lights, 7 properties per light
 
 
-	camera_x = 0, camera_y = 0, camera_z = 0,
+	camera_x = 0, camera_y = 0, camera_z = 0, camera_shake = 0,
 	camera_uniform,	
 
 	shader_attribute_vec = 'attribute vec',
