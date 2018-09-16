@@ -1,4 +1,5 @@
 import entity_t from './entity';
+import entity_plasma_t from './entity-plasma';
 
 export default class entity_player_t extends entity_t {
   _init() {

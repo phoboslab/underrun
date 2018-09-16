@@ -1,3 +1,5 @@
+import entity_particle_t from './entity-particle';
+
 export default class entity_t {
   constructor(x, y, z, friction, sprite, init_param) {
     var t = this;

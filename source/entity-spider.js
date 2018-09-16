@@ -1,4 +1,6 @@
 import entity_t from './entity';
+import entity_player_t from './entity-player';
+import entity_explosion_t from './entity-explosion';
 
 export default class entity_spider_t extends entity_t {
   _init() {

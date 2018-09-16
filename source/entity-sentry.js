@@ -1,4 +1,6 @@
 import entity_t from './entity';
+import entity_explosion_t from './entity-explosion';
+import entity_player_t from './entity-player';
 
 export default class entity_sentry_t extends entity_t {
   _init() {

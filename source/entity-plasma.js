@@ -1,4 +1,6 @@
 import entity_t from './entity';
+import entity_spider_t from './entity-spider';
+import entity_sentry_t from './entity-sentry';
 
 export default class entity_plasma_t extends entity_t {
   _init(angle) {

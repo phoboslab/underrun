@@ -1,4 +1,5 @@
 import entity_t from './entity';
+import entity_player_t from './entity-player';
 
 export default class entity_health_t extends entity_t {
   _check(other) {
