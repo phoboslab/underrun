@@ -1,5 +1,8 @@
 import { udef } from './game';
 
+import vertex_shader from './s/vert.glsl';
+import fragment_shader from './s/frag.glsl';
+
 var gl = c.getContext('webgl') || c.getContext('experimental-webgl');
 var vertex_buffer;
 var shader_program;
@@ -12,6 +15,7 @@ var px_nudge = 0.5 / texture_size;
 var max_verts = 1024 * 64;
 var num_verts = 0;
 export function get_num_verts() {
+  console.log(num_verts);
   return num_verts;
 }
 export function set_num_verts(verts) {
@@ -24,7 +28,9 @@ export function get_level_num_verts() {
 export function set_level_num_verts(verts) {
   level_num_verts = verts;
 }
-var buffer_data = new Float32Array(max_verts * 8); // allow 64k verts, 8 properties per vert
+
+// allow 64k verts, 8 properties per vert
+var buffer_data = new Float32Array(max_verts * 8);
 
 var light_uniform;
 var max_lights = 32;
@@ -35,7 +41,9 @@ export function get_num_lights() {
 export function set_num_lights(lights) {
   num_lights = lights;
 }
-var light_data = new Float32Array(max_lights * 7); // 32 lights, 7 properties per light
+
+// 32 lights, 7 properties per light
+var light_data = new Float32Array(max_lights * 7);
 
 var camera_x = 0;
 export function get_camera_x() {
@@ -70,65 +78,6 @@ export function set_camera_shake(shake) {
 }
 
 var camera_uniform;
-
-var vertex_shader = `\
-precision highp float;
-
-varying vec3 vl;
-varying vec2 vuv;
-
-attribute vec3 p;
-attribute vec2 uv;
-attribute vec3 n;
-
-uniform vec3 cam;
-uniform float l[7*32];
-
-const mat4 v = mat4(1, 0, 0, 0, 0, 0.707, 0.707, 0, 0, -0.707, 0.707, 0, 0, -22.627, -22.627, 1);// view
-const mat4 r = mat4(0.977, 0, 0, 0, 0, 1.303, 0, 0, 0, 0, -1, -1, 0, 0, -2, 0); // projection
-
-void main(void) {
-  vl = vec3(0.3, 0.3, 0.6); // ambient color
-  for (int i = 0; i < 32; i++) {
-    vec3 lp = vec3(l[i * 7], l[i * 7 + 1], l[i * 7 + 2]); // light position
-    vl += vec3(l[i * 7 + 3], l[i * 7 + 4], l[i * 7 + 5]) // light color *
-      * max(dot(n, normalize(lp - p)), 0.0) // diffuse *
-      * (1.0 / (l[i * 7 + 6] * ( // attentuation *
-        length(lp - p) // distance
-      )));
-  }
-
-  vuv = uv;
-  gl_Position = r * v * (vec4(p + cam, 1.0));
-}
-`;
-
-var fragment_shader = `\
-precision highp float;
-
-varying vec3 vl;
-varying vec2 vuv;
-
-uniform sampler2D s;
-
-void main(void) {
-  vec4 t = texture2D(s, vuv);
-  if (t.a < 0.8) // 1) discard alpha
-    discard;
-
-  if (t.r > 0.95 && t.g > 0.25 && t.b == 0.0) // 2) red glowing spider eyes
-    gl_FragColor = t;
-  else {  // 3) calculate color with lights and fog
-    gl_FragColor = t * vec4(vl, 1.0);
-    gl_FragColor.rgb *= smoothstep(
-      112.0, 16.0, // fog far, near
-      gl_FragCoord.z / gl_FragCoord.w // fog depth
-    );
-  }
-
-  gl_FragColor.rgb = floor(gl_FragColor.rgb * 6.35) / 6.35; // reduce colors to ~256
-}
-`;
 
 export function renderer_init() {
   // Create shorthand WebGL function names
