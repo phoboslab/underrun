@@ -10,5 +10,10 @@
   "license": "ISC",
   "dependencies": {
     "uglify-es": "^3.3.9"
+  },
+  "devDependencies": {
+    "commitizen": "^2.10.1",
+    "cz-conventional-changelog": "^2.1.0",
+    "parcel": "^1.9.7"
   }
 }
