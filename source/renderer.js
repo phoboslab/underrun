@@ -1,4 +1,4 @@
-var gl = c.getContext("webgl") || c.getContext("experimental-webgl");
+var gl = c.getContext('webgl') || c.getContext('experimental-webgl');
 var vertex_buffer;
 var shader_program;
 
@@ -23,63 +23,71 @@ var camera_z = 0;
 var camera_shake = 0;
 var camera_uniform;
 
-var shader_attribute_vec = "attribute vec";
-var shader_varying = `\
-precision highp float;
-varying vec3 vl;
-varying vec2 vuv;`;
-
-var shader_uniform = "uniform ";
-var shader_const_mat4 = "const mat4 ";
-
 var vertex_shader = `\
-${shader_varying}
-${shader_attribute_vec}3 p;
-${shader_attribute_vec}2 uv;
-${shader_attribute_vec}3 n;
-${shader_uniform}vec3 cam;
-${shader_uniform}float l[7*${max_lights}];
-${shader_const_mat4}v=mat4(1,0,0,0,0,.707,.707,0,0,-.707,.707,0,0,-22.627,-22.627,1);// view
-${shader_const_mat4}r=mat4(.977,0,0,0,0,1.303,0,0,0,0,-1,-1,0,0,-2,0); // projection
-void main(void){
-  vl=vec3(0.3,0.3,0.6); // ambient color
-  for(int i=0; i<${max_lights}; i++) {
-    vec3 lp=vec3(l[i*7],l[i*7+1],l[i*7+2]); // light position
-    vl+=vec3(l[i*7+3],l[i*7+4],l[i*7+5]) // light color *
-      *max(dot(n,normalize(lp-p)),0.) // diffuse *
-      *(1./(l[i*7+6]*( // attentuation *
-        length(lp-p) // distance
+precision highp float;
+
+varying vec3 vl;
+varying vec2 vuv;
+
+attribute vec3 p;
+attribute vec2 uv;
+attribute vec3 n;
+
+uniform vec3 cam;
+uniform float l[7*32];
+
+const mat4 v = mat4(1, 0, 0, 0, 0, 0.707, 0.707, 0, 0, -0.707, 0.707, 0, 0, -22.627, -22.627, 1);// view
+const mat4 r = mat4(0.977, 0, 0, 0, 0, 1.303, 0, 0, 0, 0, -1, -1, 0, 0, -2, 0); // projection
+
+void main(void) {
+  vl = vec3(0.3, 0.3, 0.6); // ambient color
+  for (int i = 0; i < 32; i++) {
+    vec3 lp = vec3(l[i * 7], l[i * 7 + 1], l[i * 7 + 2]); // light position
+    vl += vec3(l[i * 7 + 3], l[i * 7 + 4], l[i * 7 + 5]) // light color *
+      * max(dot(n, normalize(lp - p)), 0.0) // diffuse *
+      * (1.0 / (l[i * 7 + 6] * ( // attentuation *
+        length(lp - p) // distance
       )));
   }
-  vuv=uv;
-  gl_Position=r*v*(vec4(p+cam,1.));
-}`;
+
+  vuv = uv;
+  gl_Position = r * v * (vec4(p + cam, 1.0));
+}
+`;
 
 var fragment_shader = `\
-${shader_varying}
-${shader_uniform}sampler2D s;
-void main(void){
-  vec4 t=texture2D(s,vuv);
-  if(t.a<.8) // 1) discard alpha
+precision highp float;
+
+varying vec3 vl;
+varying vec2 vuv;
+
+uniform sampler2D s;
+
+void main(void) {
+  vec4 t = texture2D(s, vuv);
+  if (t.a < 0.8) // 1) discard alpha
     discard;
-  if(t.r>0.95&&t.g>0.25&&t.b==0.0) // 2) red glowing spider eyes
-    gl_FragColor=t;
-  else{  // 3) calculate color with lights and fog
-    gl_FragColor=t*vec4(vl,1.);
-    gl_FragColor.rgb*=smoothstep(
-      112.,16., // fog far, near
-      gl_FragCoord.z/gl_FragCoord.w // fog depth
+
+  if (t.r > 0.95 && t.g > 0.25 && t.b == 0.0) // 2) red glowing spider eyes
+    gl_FragColor = t;
+  else {  // 3) calculate color with lights and fog
+    gl_FragColor = t * vec4(vl, 1.0);
+    gl_FragColor.rgb *= smoothstep(
+      112.0, 16.0, // fog far, near
+      gl_FragCoord.z / gl_FragCoord.w // fog depth
     );
   }
-  gl_FragColor.rgb=floor(gl_FragColor.rgb*6.35)/6.35; // reduce colors to ~256
-}`;
+
+  gl_FragColor.rgb = floor(gl_FragColor.rgb * 6.35) / 6.35; // reduce colors to ~256
+}
+`;
 
 function renderer_init() {
   // Create shorthand WebGL function names
   // var webglShortFunctionNames = {};
   for (var name in gl) {
     if (gl[name].length != udef) {
-      gl[name.match(/(^..|[A-Z]|\d.|v$)/g).join("")] = gl[name];
+      gl[name.match(/(^..|[A-Z]|\d.|v$)/g).join('')] = gl[name];
       // webglShortFunctionNames[name] = 'gl.'+name.match(/(^..|[A-Z]|\d.|v$)/g).join('');
     }
   }
@@ -92,26 +100,26 @@ function renderer_init() {
   shader_program = gl.createProgram();
   gl.attachShader(
     shader_program,
-    compile_shader(gl.VERTEX_SHADER, vertex_shader)
+    compile_shader(gl.VERTEX_SHADER, vertex_shader),
   );
   gl.attachShader(
     shader_program,
-    compile_shader(gl.FRAGMENT_SHADER, fragment_shader)
+    compile_shader(gl.FRAGMENT_SHADER, fragment_shader),
   );
   gl.linkProgram(shader_program);
   gl.useProgram(shader_program);
 
-  camera_uniform = gl.getUniformLocation(shader_program, "cam");
-  light_uniform = gl.getUniformLocation(shader_program, "l");
+  camera_uniform = gl.getUniformLocation(shader_program, 'cam');
+  light_uniform = gl.getUniformLocation(shader_program, 'l');
 
   gl.enable(gl.DEPTH_TEST);
   gl.enable(gl.BLEND);
   gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
   gl.viewport(0, 0, c.width, c.height);
 
-  enable_vertex_attrib("p", 3, 8, 0);
-  enable_vertex_attrib("uv", 2, 8, 3);
-  enable_vertex_attrib("n", 3, 8, 5);
+  enable_vertex_attrib('p', 3, 8, 0);
+  enable_vertex_attrib('uv', 2, 8, 3);
+  enable_vertex_attrib('n', 3, 8, 5);
 }
 
 function renderer_bind_image(image) {
@@ -159,7 +167,7 @@ function push_quad(
   nx,
   ny,
   nz,
-  tile
+  tile,
 ) {
   var u = tile * tile_fraction + px_nudge;
   buffer_data.set(
@@ -211,9 +219,9 @@ function push_quad(
       1,
       nx,
       ny,
-      nz
+      nz,
     ],
-    num_verts * 8
+    num_verts * 8,
   );
   num_verts += 6;
 }
@@ -236,7 +244,7 @@ function push_sprite(x, y, z, tile) {
     0,
     0,
     1,
-    tile
+    tile,
   );
 }
 
@@ -264,7 +272,7 @@ function push_block(x, z, tile_top, tile_sites) {
     0,
     1,
     0,
-    tile_top
+    tile_top,
   ); // top
   push_quad(
     x + 8,
@@ -282,7 +290,7 @@ function push_block(x, z, tile_top, tile_sites) {
     1,
     0,
     0,
-    tile_sites
+    tile_sites,
   ); // right
   push_quad(
     x,
@@ -300,7 +308,7 @@ function push_block(x, z, tile_top, tile_sites) {
     0,
     0,
     1,
-    tile_sites
+    tile_sites,
   ); // front
   push_quad(x, y, z, x, y, z + 8, x, 0, z, x, 0, z + 8, -1, 0, 0, tile_sites); // left
 }
@@ -329,6 +337,6 @@ function enable_vertex_attrib(attrib_name, count, vertex_size, offset) {
     gl.FLOAT,
     false,
     vertex_size * 4,
-    offset * 4
+    offset * 4,
   );
 }
