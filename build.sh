@@ -24,7 +24,7 @@ node shrinkit.js build/underrun.js > build/underrun.compact.js
 ./node_modules/uglify-es/bin/uglifyjs build/underrun.compact.js \
 	--compress --screw-ie8 --mangle toplevel -c --beautify --mangle-props regex='/^_/;' \
 	-o build/underrun.min.beauty.js
-	
+
 ./node_modules/uglify-es/bin/uglifyjs build/underrun.compact.js \
 	--compress --screw-ie8 --mangle toplevel --mangle-props regex='/^_/;' \
 	-o build/underrun.min.js
