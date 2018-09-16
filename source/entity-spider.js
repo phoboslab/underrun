@@ -1,4 +1,6 @@
-class entity_spider_t extends entity_t {
+import entity_t from './entity';
+
+export default class entity_spider_t extends entity_t {
   _init() {
     this._animation_time = 0;
     this._select_target_counter = 0;
@@ -43,11 +45,11 @@ class entity_spider_t extends entity_t {
     // slightly bounce off from other spiders to separate them
     if (other instanceof entity_spider_t) {
       var axis =
-          _math.abs(other.x - this.x) > _math.abs(other.z - this.z) ? "x" : "z",
+          _math.abs(other.x - this.x) > _math.abs(other.z - this.z) ? 'x' : 'z',
         amount = this[axis] > other[axis] ? 0.6 : -0.6;
 
-      this["v" + axis] += amount;
-      other["v" + axis] -= amount;
+      this['v' + axis] += amount;
+      other['v' + axis] -= amount;
     }
 
     // hurt player

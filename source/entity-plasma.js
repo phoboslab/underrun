@@ -1,4 +1,6 @@
-class entity_plasma_t extends entity_t {
+import entity_t from './entity';
+
+export default class entity_plasma_t extends entity_t {
   _init(angle) {
     var speed = 96;
     this.vx = _math.cos(angle) * speed;

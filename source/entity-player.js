@@ -1,4 +1,6 @@
-class entity_player_t extends entity_t {
+import entity_t from './entity';
+
+export default class entity_player_t extends entity_t {
   _init() {
     this._bob = this._last_shot = this._last_damage = this._frame = 0;
   }
@@ -14,7 +16,7 @@ class entity_player_t extends entity_t {
     // rotation - select appropriate sprite
     var angle = _math.atan2(
       mouse_y - (-34 + c.height * 0.8),
-      mouse_x - (t.x + 6 + camera_x + c.width * 0.5)
+      mouse_x - (t.x + 6 + camera_x + c.width * 0.5),
     );
     t.s = (18 + (((angle / _math.PI) * 4 + 10.5) % 8)) | 0;
 
@@ -33,7 +35,7 @@ class entity_player_t extends entity_t {
         t.z,
         0,
         26,
-        angle + _math.random() * 0.2 - 0.11
+        angle + _math.random() * 0.2 - 0.11,
       );
       t._last_shot = 0.1;
     }
@@ -53,7 +55,7 @@ class entity_player_t extends entity_t {
     super._kill();
     this.y = 10;
     this.z += 5;
-    terminal_show_notice("DEPLOYMENT FAILED\n" + "RESTORING BACKUP...");
+    terminal_show_notice('DEPLOYMENT FAILED\n' + 'RESTORING BACKUP...');
     setTimeout(reload_level, 3000);
   }
 

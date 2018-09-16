@@ -1,4 +1,6 @@
-class entity_health_t extends entity_t {
+import entity_t from './entity';
+
+export default class entity_health_t extends entity_t {
   _check(other) {
     if (other instanceof entity_player_t) {
       this._kill();

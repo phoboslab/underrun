@@ -1,4 +1,4 @@
-class entity_t {
+export default class entity_t {
   constructor(x, y, z, friction, sprite, init_param) {
     var t = this;
     t.x = x;

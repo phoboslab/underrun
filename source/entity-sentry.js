@@ -1,4 +1,6 @@
-class entity_sentry_t extends entity_t {
+import entity_t from './entity';
+
+export default class entity_sentry_t extends entity_t {
   _init() {
     this._select_target_counter = 0;
     this._target_x = this.x;
@@ -26,7 +28,7 @@ class entity_sentry_t extends entity_t {
       if (dist < 48) {
         var angle = _math.atan2(
           entity_player.z - this.z,
-          entity_player.x - this.x
+          entity_player.x - this.x,
         );
         new entity_sentry_plasma_t(
           t.x,
@@ -34,7 +36,7 @@ class entity_sentry_t extends entity_t {
           t.z,
           0,
           26,
-          angle + _math.random() * 0.2 - 0.11
+          angle + _math.random() * 0.2 - 0.11,
         );
       }
     }

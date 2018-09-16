@@ -1,4 +1,6 @@
-class entity_particle_t extends entity_t {
+import entity_t from './entity';
+
+export default class entity_particle_t extends entity_t {
   _init() {
     this._lifetime = 3;
   }
