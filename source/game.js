@@ -1,6 +1,6 @@
-var udef; // global undefined
-var _math = Math;
-var _document = document;
+export var udef = undefined; // global undefined
+export var _math = Math;
+export var _document = document;
 var _temp;
 
 var keys = { 37: 0, 38: 0, 39: 0, 40: 0 };
@@ -30,7 +30,7 @@ var entities_to_kill = [];
 
 function load_image(name, callback) {
   _temp = new Image();
-  _temp.src = "m/" + name + ".png";
+  _temp.src = 'm/' + name + '.png';
   _temp.onload = callback;
 }
 
@@ -46,7 +46,7 @@ function next_level(callback) {
 
 function load_level(id, callback) {
   random_seed(0xbadc0de1 + id);
-  load_image("l" + id, function() {
+  load_image('l' + id, function() {
     entities = [];
     num_verts = 0;
     num_lights = 0;
@@ -54,9 +54,9 @@ function load_level(id, callback) {
     cpus_total = 0;
     cpus_rebooted = 0;
 
-    _temp = _document.createElement("canvas");
+    _temp = _document.createElement('canvas');
     _temp.width = _temp.height = level_width; // assume square levels
-    _temp = _temp.getContext("2d");
+    _temp = _temp.getContext('2d');
     _temp.drawImage(this, 0, 0);
     _temp = _temp.getImageData(0, 0, level_width, level_height).data;
 
@@ -91,7 +91,7 @@ function load_level(id, callback) {
                   5,
                   7,
                   7,
-                  6
+                  6,
                 ])); // floor
 
           if (tile > 7) {
@@ -148,7 +148,7 @@ function load_level(id, callback) {
     level_num_verts = num_verts;
 
     terminal_show_notice(
-      "SCANNING FOR OFFLINE SYSTEMS...___" + cpus_total + " SYSTEMS FOUND"
+      'SCANNING FOR OFFLINE SYSTEMS...___' + cpus_total + ' SYSTEMS FOUND',
     );
     callback && callback();
   });

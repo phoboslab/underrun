@@ -1,4 +1,4 @@
-var sound_terminal = {
+export var sound_terminal = {
   osc1_oct: 6,
   osc1_det: 0,
   osc1_detune: 0,
@@ -27,10 +27,10 @@ var sound_terminal = {
   lfo_fx_freq: 0,
   lfo_freq: 0,
   lfo_amt: 0,
-  lfo_waveform: 0
+  lfo_waveform: 0,
 };
 
-var sound_shoot = {
+export var sound_shoot = {
   osc1_oct: 7,
   osc1_det: 0,
   osc1_detune: 0,
@@ -59,10 +59,10 @@ var sound_shoot = {
   lfo_fx_freq: 0,
   lfo_freq: 0,
   lfo_amt: 0,
-  lfo_waveform: 0
+  lfo_waveform: 0,
 };
 
-var sound_hit = {
+export var sound_hit = {
   osc1_oct: 8,
   osc1_det: 0,
   osc1_detune: 0,
@@ -91,10 +91,10 @@ var sound_hit = {
   lfo_fx_freq: 1,
   lfo_freq: 4,
   lfo_amt: 60,
-  lfo_waveform: 0
+  lfo_waveform: 0,
 };
 
-var sound_beep = {
+export var sound_beep = {
   osc1_oct: 10,
   osc1_det: 0,
   osc1_detune: 0,
@@ -123,10 +123,10 @@ var sound_beep = {
   lfo_fx_freq: 1,
   lfo_freq: 3,
   lfo_amt: 69,
-  lfo_waveform: 0
+  lfo_waveform: 0,
 };
 
-var sound_hurt = {
+export var sound_hurt = {
   osc1_oct: 7,
   osc1_det: 3,
   osc1_detune: 140,
@@ -155,10 +155,10 @@ var sound_hurt = {
   lfo_fx_freq: 1,
   lfo_freq: 13,
   lfo_amt: 255,
-  lfo_waveform: 2
+  lfo_waveform: 2,
 };
 
-var sound_pickup = {
+export var sound_pickup = {
   osc1_oct: 5,
   osc1_det: 0,
   osc1_detune: 0,
@@ -187,10 +187,10 @@ var sound_pickup = {
   lfo_fx_freq: 1,
   lfo_freq: 6,
   lfo_amt: 231,
-  lfo_waveform: 0
+  lfo_waveform: 0,
 };
 
-var sound_explode = {
+export var sound_explode = {
   osc1_oct: 8,
   osc1_det: 0,
   osc1_detune: 0,
@@ -219,5 +219,5 @@ var sound_explode = {
   lfo_fx_freq: 0,
   lfo_freq: 0,
   lfo_amt: 0,
-  lfo_waveform: 0
+  lfo_waveform: 0,
 };

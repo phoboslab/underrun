@@ -31,7 +31,10 @@
 // 3. This notice may not be removed or altered from any source
 //	distribution.
 
-var sonantxr_generate_song, sonantxr_generate_sound;
+import { _document, _math } from './game';
+
+export var sonantxr_generate_song;
+export var sonantxr_generate_sound;
 
 (function() {
   var WAVE_SPS = 44100; // Samples per second
@@ -67,7 +70,7 @@ var sonantxr_generate_song, sonantxr_generate_sound;
   function generateBuffer(samples) {
     return {
       left: new Float32Array(samples),
-      right: new Float32Array(samples)
+      right: new Float32Array(samples),
     };
   }
 

@@ -1,13 +1,30 @@
-var audio_ctx = new (window.webkitAudioContext || window.AudioContext)(),
-  audio_sfx_shoot,
-  audio_sfx_hit,
-  audio_sfx_hurt,
-  audio_sfx_beep,
-  audio_sfx_pickup,
-  audio_sfx_terminal,
-  audio_sfx_explode;
+import {
+  sonantxr_generate_song,
+  sonantxr_generate_sound,
+} from './sonantx-reduced';
 
-function audio_init(callback) {
+import { music_dark_meat_beat } from './music-dark-meat-beat';
+import {
+  sound_terminal,
+  sound_shoot,
+  sound_hit,
+  sound_beep,
+  sound_hurt,
+  sound_pickup,
+  sound_explode,
+} from './sound-effects';
+
+var audio_ctx = new (window.webkitAudioContext || window.AudioContext)();
+
+export var audio_sfx_shoot;
+export var audio_sfx_hit;
+export var audio_sfx_hurt;
+export var audio_sfx_beep;
+export var audio_sfx_pickup;
+export var audio_sfx_terminal;
+export var audio_sfx_explode;
+
+export function audio_init(callback) {
   sonantxr_generate_song(audio_ctx, music_dark_meat_beat, function(buffer) {
     audio_play(buffer, true);
     callback();
@@ -35,7 +52,7 @@ function audio_init(callback) {
   });
 }
 
-function audio_play(buffer, loop) {
+export function audio_play(buffer, loop) {
   var source = audio_ctx.createBufferSource();
   source.buffer = buffer;
   source.loop = loop;
