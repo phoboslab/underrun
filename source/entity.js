@@ -1,4 +1,12 @@
-import entity_particle_t from './entity-particle';
+import {
+  _math,
+  entities,
+  entities_to_kill,
+  time_elapsed,
+  level_data,
+  level_width,
+} from './game';
+import { push_sprite } from './renderer';
 
 export default class entity_t {
   constructor(x, y, z, friction, sprite, init_param) {
@@ -55,15 +63,6 @@ export default class entity_t {
       level_data[((x + 6) >> 3) + ((z + 4) >> 3) * level_width] > 7 || // bottom right
       level_data[(x >> 3) + ((z + 4) >> 3) * level_width] > 7
     ); // bottom left
-  }
-
-  _spawn_particles(amount) {
-    for (var i = 0; i < amount; i++) {
-      var particle = new entity_particle_t(this.x, 0, this.z, 1, 30);
-      particle.vx = (_math.random() - 0.5) * 128;
-      particle.vy = _math.random() * 96;
-      particle.vz = (_math.random() - 0.5) * 128;
-    }
   }
 
   // collision against static walls

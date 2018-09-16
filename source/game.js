@@ -1,40 +1,68 @@
+import { random_int, random_seed, array_rand } from './random';
+import {
+  get_num_verts,
+  set_num_verts,
+  set_level_num_verts,
+  set_num_lights,
+  push_block,
+  push_floor,
+  push_sprite,
+  get_camera_x,
+  set_camera_x,
+  get_camera_y,
+  set_camera_y,
+  get_camera_z,
+  set_camera_z,
+  get_camera_shake,
+  set_camera_shake,
+  renderer_prepare_frame,
+  renderer_end_frame,
+} from './renderer';
+import { terminal_show_notice } from './terminal';
+
+import entity_cpu_t from './entity-cpu';
+import entity_health_t from './entity-health';
+import entity_player_t from './entity-player';
+import entity_sentry_t from './entity-sentry';
+import entity_spider_t from './entity-spider';
+
 export var udef = undefined; // global undefined
 export var _math = Math;
 export var _document = document;
 var _temp;
 
-var keys = { 37: 0, 38: 0, 39: 0, 40: 0 };
-var key_up = 38;
-var key_down = 40;
-var key_left = 37;
-var key_right = 39;
-var key_shoot = 512;
-var key_convert = { 65: 37, 87: 38, 68: 39, 83: 40 }; // convert AWDS to left up down right
-var mouse_x = 0;
-var mouse_y = 0;
+export var keys = { 37: 0, 38: 0, 39: 0, 40: 0 };
+export var key_up = 38;
+export var key_down = 40;
+export var key_left = 37;
+export var key_right = 39;
+export var key_shoot = 512;
+export var key_convert = { 65: 37, 87: 38, 68: 39, 83: 40 }; // convert AWDS to left up down right
+export var mouse_x = 0;
+export var mouse_y = 0;
 
-var time_elapsed;
+export var time_elapsed;
 var time_last = performance.now();
 
-var level_width = 64;
+export var level_width = 64;
 var level_height = 64;
-var level_data = new Uint8Array(level_width * level_height);
+export var level_data = new Uint8Array(level_width * level_height);
 
 var cpus_total = 0;
 var cpus_rebooted = 0;
 
 var current_level = 0;
-var entity_player;
-var entities = [];
-var entities_to_kill = [];
+export var entity_player;
+export var entities = [];
+export var entities_to_kill = [];
 
-function load_image(name, callback) {
+export function load_image(name, callback) {
   _temp = new Image();
   _temp.src = 'm/' + name + '.png';
   _temp.onload = callback;
 }
 
-function next_level(callback) {
+export function next_level(callback) {
   if (current_level == 3) {
     entities_to_kill.push(entity_player);
     terminal_run_outro();
@@ -48,8 +76,10 @@ function load_level(id, callback) {
   random_seed(0xbadc0de1 + id);
   load_image('l' + id, function() {
     entities = [];
-    num_verts = 0;
-    num_lights = 0;
+    // num_verts = 0;
+    set_num_verts(0);
+    // num_lights = 0;
+    set_num_lights(0);
 
     cpus_total = 0;
     cpus_rebooted = 0;
@@ -74,24 +104,9 @@ function load_level(id, callback) {
               ? random_int(0, 5) < 4
                 ? 8
                 : random_int(8, 17)
-              : array_rand([
-                  1,
-                  1,
-                  1,
-                  1,
-                  1,
-                  3,
-                  3,
-                  2,
-                  5,
-                  5,
-                  5,
-                  5,
-                  5,
-                  5,
-                  7,
-                  7,
-                  6,
+              : // prettier-ignore
+                array_rand([
+                  1, 1, 1, 1, 1, 3, 3, 2, 5, 5, 5, 5, 5, 5, 7, 7, 6
                 ])); // floor
 
           if (tile > 7) {
@@ -141,11 +156,15 @@ function load_level(id, callback) {
       }
     }
 
-    camera_x = -entity_player.x;
-    camera_y = -300;
-    camera_z = -entity_player.z - 100;
+    // camera_x = -entity_player.x;
+    set_camera_x(-entity_player.x);
+    // camera_y = -300;
+    set_camera_y(-300);
+    // camera_z = -entity_player.z - 100;
+    set_camera_z(-entity_player.z - 100);
 
-    level_num_verts = num_verts;
+    // level_num_verts = num_verts;
+    set_level_num_verts(get_num_verts());
 
     terminal_show_notice(
       'SCANNING FOR OFFLINE SYSTEMS...___' + cpus_total + ' SYSTEMS FOUND',
@@ -195,7 +214,7 @@ _document.onmouseup = function(ev) {
   preventDefault(ev);
 };
 
-function game_tick() {
+export function game_tick() {
   var time_now = performance.now();
   time_elapsed = (time_now - time_last) / 1000;
   time_last = time_now;
@@ -230,18 +249,33 @@ function game_tick() {
   }
 
   // center camera on player, apply damping
-  camera_x = camera_x * 0.92 - entity_player.x * 0.08;
-  camera_y = camera_y * 0.92 - entity_player.y * 0.08;
-  camera_z = camera_z * 0.92 - entity_player.z * 0.08;
+  // camera_x = camera_x * 0.92 - entity_player.x * 0.08;
+  set_camera_x(get_camera_x() * 0.92 - entity_player.x * 0.08);
+  // camera_y = camera_y * 0.92 - entity_player.y * 0.08;
+  set_camera_y(get_camera_y() * 0.92 - entity_player.y * 0.08);
+  // camera_z = camera_z * 0.92 - entity_player.z * 0.08;
+  set_camera_z(get_camera_z() * 0.92 - entity_player.z * 0.08);
 
   // add camera shake
-  camera_shake *= 0.9;
-  camera_x += camera_shake * (_math.random() - 0.5);
-  camera_z += camera_shake * (_math.random() - 0.5);
+  // camera_shake *= 0.9;
+  set_camera_shake(get_camera_shake() * 0.9);
+  // camera_x += camera_shake * (_math.random() - 0.5);
+  set_camera_x(
+    get_camera_shake() + get_camera_shake() * (_math.random() - 0.5),
+  );
+  // camera_z += camera_shake * (_math.random() - 0.5);
+  set_camera_z(
+    get_camera_shake() + get_camera_shake() * (_math.random() - 0.5),
+  );
 
   // health bar, render with plasma sprite
   for (var i = 0; i < entity_player.h; i++) {
-    push_sprite(-camera_x - 50 + i * 4, 29 - camera_y, -camera_z - 30, 26);
+    push_sprite(
+      -get_camera_x() - 50 + i * 4,
+      29 - get_camera_y(),
+      -get_camera_z() - 30,
+      26,
+    );
   }
 
   renderer_end_frame();

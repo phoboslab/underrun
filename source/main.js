@@ -1,11 +1,12 @@
 import { audio_init } from './audio';
-import { _document } from './game';
+import { _document, load_image, next_level, game_tick } from './game';
 import {
   terminal_write_line,
   terminal_cancel,
   terminal_hide,
   terminal_run_intro,
 } from './terminal';
+import { renderer_init, renderer_bind_image } from './renderer';
 
 terminal_write_line('INITIATING...');
 

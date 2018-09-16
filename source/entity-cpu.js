@@ -1,6 +1,9 @@
 import entity_t from './entity';
 import entity_player_t from './entity-player';
 
+import { _math, time_elapsed } from './game';
+import { push_block, push_light } from './renderer';
+
 export default class entity_cpu_t extends entity_t {
   _init() {
     this._animation_time = 0;

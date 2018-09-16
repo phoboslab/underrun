@@ -1,6 +1,9 @@
 import entity_t from './entity';
 import entity_explosion_t from './entity-explosion';
+import entity_particle_t from './entity-particle';
 import entity_player_t from './entity-player';
+
+import { _math, entity_player, time_elapsed } from './game';
 
 export default class entity_sentry_t extends entity_t {
   _init() {
@@ -52,6 +55,15 @@ export default class entity_sentry_t extends entity_t {
     }
 
     super._update();
+  }
+
+  _spawn_particles(amount) {
+    for (var i = 0; i < amount; i++) {
+      var particle = new entity_particle_t(this.x, 0, this.z, 1, 30);
+      particle.vx = (_math.random() - 0.5) * 128;
+      particle.vy = _math.random() * 96;
+      particle.vz = (_math.random() - 0.5) * 128;
+    }
   }
 
   _receive_damage(from, amount) {

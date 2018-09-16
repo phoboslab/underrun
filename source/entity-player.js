@@ -1,5 +1,20 @@
+import { audio_play, audio_sfx_shoot } from './audio';
 import entity_t from './entity';
 import entity_plasma_t from './entity-plasma';
+import { get_camera_x, push_light } from './renderer';
+
+import {
+  _math,
+  time_elapsed,
+  keys,
+  key_up,
+  key_down,
+  key_left,
+  key_right,
+  key_shoot,
+  mouse_x,
+  mouse_y,
+} from './game';
 
 export default class entity_player_t extends entity_t {
   _init() {
@@ -17,7 +32,7 @@ export default class entity_player_t extends entity_t {
     // rotation - select appropriate sprite
     var angle = _math.atan2(
       mouse_y - (-34 + c.height * 0.8),
-      mouse_x - (t.x + 6 + camera_x + c.width * 0.5),
+      mouse_x - (t.x + 6 + get_camera_x() + c.width * 0.5),
     );
     t.s = (18 + (((angle / _math.PI) * 4 + 10.5) % 8)) | 0;
 

@@ -1,6 +1,9 @@
 import entity_t from './entity';
 import entity_player_t from './entity-player';
+import entity_particle_t from './entity-particle';
 import entity_explosion_t from './entity-explosion';
+
+import { _math, entity_player, time_elapsed } from './game';
 
 export default class entity_spider_t extends entity_t {
   _init() {
@@ -34,6 +37,15 @@ export default class entity_spider_t extends entity_t {
     super._update();
     this._animation_time += time_elapsed;
     this.s = 27 + (((this._animation_time * 15) | 0) % 3);
+  }
+
+  _spawn_particles(amount) {
+    for (var i = 0; i < amount; i++) {
+      var particle = new entity_particle_t(this.x, 0, this.z, 1, 30);
+      particle.vx = (_math.random() - 0.5) * 128;
+      particle.vy = _math.random() * 96;
+      particle.vz = (_math.random() - 0.5) * 128;
+    }
   }
 
   _receive_damage(from, amount) {

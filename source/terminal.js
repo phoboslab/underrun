@@ -125,7 +125,7 @@ export function terminal_write_line(line, callback) {
   terminal_timeout_id = setTimeout(callback, terminal_line_wait);
 }
 
-function terminal_show_notice(notice, callback) {
+export function terminal_show_notice(notice, callback) {
   a.innerHTML = '';
   terminal_text_buffer = [];
 
