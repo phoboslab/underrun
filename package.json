@@ -4,6 +4,7 @@
   "description": "",
   "main": "underrun.js",
   "scripts": {
+    "start": "parcel source/{index.html,m/*.png}",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
