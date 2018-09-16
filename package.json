@@ -15,5 +15,10 @@
     "commitizen": "^2.10.1",
     "cz-conventional-changelog": "^2.1.0",
     "parcel": "^1.9.7"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   }
 }
