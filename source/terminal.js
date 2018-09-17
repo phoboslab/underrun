@@ -174,7 +174,7 @@ function terminal_run_story(callback) {
   terminal_write_text(terminal_prepare_text(terminal_text_story), callback);
 }
 
-function terminal_run_outro(callback) {
+export function terminal_run_outro(callback) {
   c.style.opacity = 0.3;
   a.innerHTML = '';
   terminal_text_buffer = [];

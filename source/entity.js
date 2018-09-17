@@ -27,9 +27,9 @@ export default class entity_t {
   _init(init_param) {}
 
   _update() {
-    var t = this,
-      last_x = t.x,
-      last_z = t.z;
+    var t = this;
+    var last_x = t.x;
+    var last_z = t.z;
 
     // velocity
     t.vx += t.ax * time_elapsed - t.vx * _math.min(t.f * time_elapsed, 1);
@@ -61,8 +61,8 @@ export default class entity_t {
       level_data[(x >> 3) + (z >> 3) * level_width] > 7 || // top left
       level_data[((x + 6) >> 3) + (z >> 3) * level_width] > 7 || // top right
       level_data[((x + 6) >> 3) + ((z + 4) >> 3) * level_width] > 7 || // bottom right
-      level_data[(x >> 3) + ((z + 4) >> 3) * level_width] > 7
-    ); // bottom left
+      level_data[(x >> 3) + ((z + 4) >> 3) * level_width] > 7 // bottom left
+    );
   }
 
   // collision against static walls

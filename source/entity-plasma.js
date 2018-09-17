@@ -2,6 +2,7 @@ import entity_t from './entity';
 import entity_spider_t from './entity-spider';
 import entity_sentry_t from './entity-sentry';
 
+import { audio_play, audio_sfx_hit } from './audio';
 import { _math } from './game';
 import { push_light } from './renderer';
 

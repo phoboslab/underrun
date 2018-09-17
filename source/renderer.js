@@ -15,7 +15,6 @@ var px_nudge = 0.5 / texture_size;
 var max_verts = 1024 * 64;
 var num_verts = 0;
 export function get_num_verts() {
-  console.log(num_verts);
   return num_verts;
 }
 export function set_num_verts(verts) {
@@ -104,6 +103,8 @@ export function renderer_init() {
     compile_shader(gl.FRAGMENT_SHADER, fragment_shader),
   );
   gl.linkProgram(shader_program);
+  // console.log({ programInfoLog: gl.getProgramInfoLog(shader_program) });
+
   gl.useProgram(shader_program);
 
   camera_uniform = gl.getUniformLocation(shader_program, 'cam');
@@ -121,8 +122,10 @@ export function renderer_init() {
 
 export function renderer_bind_image(image) {
   var texture_2d = gl.TEXTURE_2D;
+
   gl.bindTexture(texture_2d, gl.createTexture());
   gl.texImage2D(texture_2d, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+
   gl.texParameteri(texture_2d, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
   gl.texParameteri(texture_2d, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
   gl.texParameteri(texture_2d, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
@@ -189,7 +192,14 @@ export function push_sprite(x, y, z, tile) {
 }
 
 export function push_floor(x, z, tile) {
-  push_quad(x, 0, z, x + 8, 0, z, x, 0, z + 8, x + 8, 0, z + 8, 0, 1, 0, tile);
+  // prettier-ignore
+  push_quad(
+    x, 0, z, x + 8,
+    0, z, x, 0,
+    z + 8, x + 8, 0,
+    z + 8, 0, 1, 0,
+    tile,
+  );
 }
 
 export function push_block(x, z, tile_top, tile_sites) {
@@ -239,7 +249,13 @@ export function push_block(x, z, tile_top, tile_sites) {
 
 export function push_light(x, y, z, r, g, b, falloff) {
   if (num_lights < max_lights) {
-    light_data.set([x, y, z, r, g, b, falloff], num_lights * 7);
+    // prettier-ignore
+    light_data.set([
+      x, y, z,
+      r, g, b,
+      falloff,
+    ], num_lights * 7);
+
     num_lights++;
   }
 }
@@ -248,7 +264,7 @@ function compile_shader(shader_type, shader_source) {
   var shader = gl.createShader(shader_type);
   gl.shaderSource(shader, shader_source);
   gl.compileShader(shader);
-  // console.log(gl.getShaderInfoLog(shader));
+  // console.log({ shaderInfoLog: gl.getShaderInfoLog(shader) });
   return shader;
 }
 

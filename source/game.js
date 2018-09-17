@@ -18,7 +18,7 @@ import {
   renderer_prepare_frame,
   renderer_end_frame,
 } from './renderer';
-import { terminal_show_notice } from './terminal';
+import { terminal_show_notice, terminal_run_outro } from './terminal';
 
 import entity_cpu_t from './entity-cpu';
 import entity_health_t from './entity-health';
@@ -48,10 +48,16 @@ export var level_width = 64;
 var level_height = 64;
 export var level_data = new Uint8Array(level_width * level_height);
 
-var cpus_total = 0;
+export var cpus_total = 0;
 var cpus_rebooted = 0;
+export function get_cpus_rebooted() {
+  return cpus_rebooted;
+}
+export function set_cpus_rebooted(rebooted) {
+  cpus_rebooted = rebooted;
+}
 
-var current_level = 0;
+export var current_level = 0;
 export var entity_player;
 export var entities = [];
 export var entities_to_kill = [];
@@ -173,7 +179,7 @@ function load_level(id, callback) {
   });
 }
 
-function reload_level() {
+export function reload_level() {
   load_level(current_level);
 }
 
@@ -260,13 +266,9 @@ export function game_tick() {
   // camera_shake *= 0.9;
   set_camera_shake(get_camera_shake() * 0.9);
   // camera_x += camera_shake * (_math.random() - 0.5);
-  set_camera_x(
-    get_camera_shake() + get_camera_shake() * (_math.random() - 0.5),
-  );
+  set_camera_x(get_camera_x() + get_camera_shake() * (_math.random() - 0.5));
   // camera_z += camera_shake * (_math.random() - 0.5);
-  set_camera_z(
-    get_camera_shake() + get_camera_shake() * (_math.random() - 0.5),
-  );
+  set_camera_z(get_camera_z() + get_camera_shake() * (_math.random() - 0.5));
 
   // health bar, render with plasma sprite
   for (var i = 0; i < entity_player.h; i++) {

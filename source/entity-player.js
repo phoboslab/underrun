@@ -1,4 +1,4 @@
-import { audio_play, audio_sfx_shoot } from './audio';
+import { audio_play, audio_sfx_shoot, audio_sfx_hurt } from './audio';
 import entity_t from './entity';
 import entity_plasma_t from './entity-plasma';
 import { get_camera_x, push_light } from './renderer';
@@ -14,7 +14,9 @@ import {
   key_shoot,
   mouse_x,
   mouse_y,
+  reload_level,
 } from './game';
+import { terminal_show_notice } from './terminal';
 
 export default class entity_player_t extends entity_t {
   _init() {
@@ -22,8 +24,8 @@ export default class entity_player_t extends entity_t {
   }
 
   _update() {
-    var t = this,
-      speed = 128;
+    var t = this;
+    var speed = 128;
 
     // movement
     t.ax = keys[key_left] ? -speed : keys[key_right] ? speed : 0;
@@ -45,12 +47,10 @@ export default class entity_player_t extends entity_t {
 
     if (keys[key_shoot] && t._last_shot < 0) {
       audio_play(audio_sfx_shoot);
+      // prettier-ignore
       new entity_plasma_t(
-        t.x,
-        0,
-        t.z,
-        0,
-        26,
+        t.x, 0, t.z,
+        0, 26,
         angle + _math.random() * 0.2 - 0.11,
       );
       t._last_shot = 0.1;

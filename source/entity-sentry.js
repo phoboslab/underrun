@@ -3,7 +3,9 @@ import entity_explosion_t from './entity-explosion';
 import entity_particle_t from './entity-particle';
 import entity_player_t from './entity-player';
 
+import { audio_play, audio_sfx_explode } from './audio';
 import { _math, entity_player, time_elapsed } from './game';
+import { push_light, set_camera_shake } from './renderer';
 
 export default class entity_sentry_t extends entity_t {
   _init() {
@@ -76,7 +78,7 @@ export default class entity_sentry_t extends entity_t {
   _kill() {
     super._kill();
     new entity_explosion_t(this.x, 0, this.z, 0, 26);
-    camera_shake = 3;
+    set_camera_shake(3);
     audio_play(audio_sfx_explode);
   }
 }

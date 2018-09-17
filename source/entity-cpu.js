@@ -1,8 +1,18 @@
 import entity_t from './entity';
 import entity_player_t from './entity-player';
 
-import { _math, time_elapsed } from './game';
+import { audio_play, audio_sfx_beep } from './audio';
+import {
+  _math,
+  time_elapsed,
+  get_cpus_rebooted,
+  set_cpus_rebooted,
+  cpus_total,
+  next_level,
+  current_level,
+} from './game';
 import { push_block, push_light } from './renderer';
+import { terminal_show_notice } from './terminal';
 
 export default class entity_cpu_t extends entity_t {
   _init() {
@@ -24,14 +34,14 @@ export default class entity_cpu_t extends entity_t {
   _check(other) {
     if (this.h == 5 && other instanceof entity_player_t) {
       this.h = 10;
-      cpus_rebooted++;
+      set_cpus_rebooted(get_cpus_rebooted() + 1);
 
       var reboot_message = '\n\n\nREBOOTING..._' + 'SUCCESS\n';
 
-      if (cpus_total - cpus_rebooted > 0) {
+      if (cpus_total - get_cpus_rebooted() > 0) {
         terminal_show_notice(
           reboot_message +
-            (cpus_total - cpus_rebooted) +
+            (cpus_total - get_cpus_rebooted()) +
             ' SYSTEM(S) STILL OFFLINE',
         );
       } else {
@@ -51,6 +61,7 @@ export default class entity_cpu_t extends entity_t {
           );
         }
       }
+
       audio_play(audio_sfx_beep);
     }
   }
