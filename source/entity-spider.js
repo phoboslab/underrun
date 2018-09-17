@@ -1,70 +1,85 @@
+import entity_t from './entity';
+import entity_player_t from './entity-player';
+import entity_particle_t from './entity-particle';
+import entity_explosion_t from './entity-explosion';
 
-class entity_spider_t extends entity_t {
-	_init() {
-		this._animation_time = 0;
-		this._select_target_counter = 0;
-		this._target_x = this.x;
-		this._target_z = this.z;
-	}
-	
-	_update() {
-		var t = this,
-			txd = t.x - t._target_x,
-			tzd = t.z - t._target_z,
-			xd = t.x - entity_player.x,
-			zd = t.z - entity_player.z,
-			dist = _math.sqrt(xd * xd + zd * zd);
+import { audio_play, audio_sfx_explode } from './audio';
+import { _math, entity_player, time_elapsed } from './game';
+import { set_camera_shake } from './renderer';
 
-		t._select_target_counter -= time_elapsed;
+export default class entity_spider_t extends entity_t {
+  _init() {
+    this._animation_time = 0;
+    this._select_target_counter = 0;
+    this._target_x = this.x;
+    this._target_z = this.z;
+  }
 
-		// select new target after a while
-		if (t._select_target_counter < 0 && dist < 64) {
-			t._select_target_counter = _math.random() * 0.5 + 0.3;
-			t._target_x = entity_player.x;
-			t._target_z = entity_player.z;
-		}
-		
-		// set velocity towards target
-		t.ax = _math.abs(txd) > 2 ? (txd > 0 ? -160 : 160) : 0;
-		t.az = _math.abs(tzd) > 2 ? (tzd > 0 ? -160 : 160) : 0;
+  _update() {
+    var t = this,
+      txd = t.x - t._target_x,
+      tzd = t.z - t._target_z,
+      xd = t.x - entity_player.x,
+      zd = t.z - entity_player.z,
+      dist = _math.sqrt(xd * xd + zd * zd);
 
-		super._update();
-		this._animation_time += time_elapsed;
-		this.s = 27 + ((this._animation_time*15)|0)%3;
-	}
+    t._select_target_counter -= time_elapsed;
 
-	_receive_damage(from, amount) {
-		super._receive_damage(from, amount);
-		this.vx = from.vx;
-		this.vz = from.vz;
-		this._spawn_particles(5);
-	}
+    // select new target after a while
+    if (t._select_target_counter < 0 && dist < 64) {
+      t._select_target_counter = _math.random() * 0.5 + 0.3;
+      t._target_x = entity_player.x;
+      t._target_z = entity_player.z;
+    }
 
-	_check(other) {
-		// slightly bounce off from other spiders to separate them
-		if (other instanceof entity_spider_t) {
-			var 
-				axis = (_math.abs(other.x - this.x) > _math.abs(other.z - this.z)
-					? 'x' 
-					: 'z'),
-				amount = this[axis] > other[axis] ? 0.6 : -0.6;
+    // set velocity towards target
+    t.ax = _math.abs(txd) > 2 ? (txd > 0 ? -160 : 160) : 0;
+    t.az = _math.abs(tzd) > 2 ? (tzd > 0 ? -160 : 160) : 0;
 
-			this['v'+axis] += amount;
-			other['v'+axis] -= amount;
-		}
+    super._update();
+    this._animation_time += time_elapsed;
+    this.s = 27 + (((this._animation_time * 15) | 0) % 3);
+  }
 
-		// hurt player
-		else if (other instanceof entity_player_t) {
-			this.vx *= -1.5;
-			this.vz *= -1.5;
-			other._receive_damage(this, 1);
-		}
-	}
+  _spawn_particles(amount) {
+    for (var i = 0; i < amount; i++) {
+      var particle = new entity_particle_t(this.x, 0, this.z, 1, 30);
+      particle.vx = (_math.random() - 0.5) * 128;
+      particle.vy = _math.random() * 96;
+      particle.vz = (_math.random() - 0.5) * 128;
+    }
+  }
 
-	_kill() {
-		super._kill();
-		new entity_explosion_t(this.x, 0, this.z, 0, 26);
-		camera_shake = 1;
-		audio_play(audio_sfx_explode);
-	}
+  _receive_damage(from, amount) {
+    super._receive_damage(from, amount);
+    this.vx = from.vx;
+    this.vz = from.vz;
+    this._spawn_particles(5);
+  }
+
+  _check(other) {
+    // slightly bounce off from other spiders to separate them
+    if (other instanceof entity_spider_t) {
+      var axis =
+          _math.abs(other.x - this.x) > _math.abs(other.z - this.z) ? 'x' : 'z',
+        amount = this[axis] > other[axis] ? 0.6 : -0.6;
+
+      this['v' + axis] += amount;
+      other['v' + axis] -= amount;
+    }
+
+    // hurt player
+    else if (other instanceof entity_player_t) {
+      this.vx *= -1.5;
+      this.vz *= -1.5;
+      other._receive_damage(this, 1);
+    }
+  }
+
+  _kill() {
+    super._kill();
+    new entity_explosion_t(this.x, 0, this.z, 0, 26);
+    set_camera_shake(1);
+    audio_play(audio_sfx_explode);
+  }
 }
