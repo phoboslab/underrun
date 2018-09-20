@@ -37,7 +37,7 @@ class entity_t {
 		}
 
 		// check wall collissions, vertical
-		if (t._collides(last_x, t.z)) {
+		if (t._collides(t.x, t.z)) {
 			t._did_collide(t.x, t.y);
 			t.z = last_z;
 			t.vz = 0;
