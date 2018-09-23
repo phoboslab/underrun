@@ -14,7 +14,7 @@ var
 	buffer_data = new Float32Array(max_verts*8), // allow 64k verts, 8 properties per vert
 
 	light_uniform,
-	max_lights = 32,
+	max_lights = 16,
 	num_lights = 0,
 	light_data = new Float32Array(max_lights*7), // 32 lights, 7 properties per light
 
@@ -151,8 +151,14 @@ function push_quad(x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4, nx, ny, nz, t
 };
 
 function push_sprite(x, y, z, tile) {
-	var tilt = 3+(camera_z + z)/12; // tilt sprite when closer to camera
-	push_quad(x, y + 6, z, x + 6, y + 6, z, x, y, z + tilt, x + 6, y, z + tilt, 0, 0, 1, tile);
+	// Only push sprites near to the camera
+	if (
+		_math.abs(-x - camera_x) < 128 && 
+		_math.abs(-z - camera_z) < 128
+	) {
+		var tilt = 3+(camera_z + z)/12; // tilt sprite when closer to camera
+		push_quad(x, y + 6, z, x + 6, y + 6, z, x, y, z + tilt, x + 6, y, z + tilt, 0, 0, 1, tile);
+	}
 }
 
 function push_floor(x, z, tile) {
@@ -170,7 +176,13 @@ function push_block(x, z, tile_top, tile_sites) {
 };
 
 function push_light(x, y, z, r, g, b, falloff) {
-	if (num_lights < max_lights) {
+	// Only push lights near to the camera
+	var max_light_distance = (128 + 1/falloff); // cheap ass approximation
+	if (
+		num_lights < max_lights &&
+		_math.abs(-x - camera_x) < max_light_distance &&
+		_math.abs(-z - camera_z) < max_light_distance
+	) {
 		light_data.set([x, y, z, r, g, b, falloff], num_lights*7);
 		num_lights++;
 	}
