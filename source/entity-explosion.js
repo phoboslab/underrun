@@ -5,12 +5,6 @@ class entity_explosion_t extends entity_t {
 	}
 
 	_update() {
-		this.ay = -320;
-
-		if (this.y < 0) {
-			this.y = 0;
-			this.vy = -this.vy * 0.96;
-		}
 		super._update();
 		this._lifetime -= time_elapsed;
 		if (this._lifetime < 0) {
