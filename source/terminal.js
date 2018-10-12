@@ -33,7 +33,7 @@ var terminal_text_story =
 	'INITIATING RESCUE SYSTEM...\n' +
 	'___' +
 	'FAILED\n \n' +
-	'ATEMPTING AUTOMATED REBOOT...\n' +
+	'ATTEMPTING AUTOMATED REBOOT...\n' +
 	'___' +
 	'FAILED\n' +
 	'_ \n \n' +
