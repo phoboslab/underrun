@@ -36,9 +36,11 @@ function audio_init(callback) {
 };
 
 function audio_play(buffer, loop) {
-	var source = audio_ctx.createBufferSource();
-	source.buffer = buffer;
-	source.loop = loop;
-	source.connect(audio_ctx.destination);
-	source.start();
+	if (buffer) {
+		var source = audio_ctx.createBufferSource();
+		source.buffer = buffer;
+		source.loop = loop;
+		source.connect(audio_ctx.destination);
+		source.start();
+	}
 };
