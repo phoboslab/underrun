@@ -1,0 +1,28 @@
+{
+    "background_color": "#fff",
+    "display": "standalone",
+    "homepage_url": "https://github.com/phoboslab/underrun",
+    "providedBy": { "name": "phoboslab", "url": "https://github.com/phoboslab/underrun" },
+    "icons": [
+      {
+        "src": "./img/192x192_App_Icon.png",
+        "sizes": "192x192",
+        "type": "image/png",
+        "purpose": "any maskable"
+      },
+      {
+        "src": "./img/512x512_App_Icon.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "any maskable"
+      }
+    ],
+    "orientation": "portrait",
+    "name": "Underrun",
+    "description": "Doom-esque game that will bring you right back to the 90's",
+    "iconPath": "./img/256x256_App_Icon.png",
+    "short_name": "Underrun",
+    "start_url": ".",
+    "theme_color": "#ff007a",
+    "skylink": "AQBHlfViZErCILTSEE9jS35_m3Rbw4XZosIwmYWuHqS6wQ"
+  }
