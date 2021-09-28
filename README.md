@@ -6,9 +6,9 @@
 
 
 
-**Original Concept by:** [phoboslab](https://github.com/phoboslab/underrun)
+#### Original Concept by: [phoboslab](https://github.com/phoboslab/underrun)
 
-**Updated and expanded by:** [skunk-ink](https://github.com/skunk-ink/underrun)
+#### Updated and expanded by: [skunk-ink](https://github.com/skunk-ink/underrun)
 
 
 **[PLAY NOW!](https://homescreen.hns.siasky.net/#/skylink/AQBHlfViZErCILTSEE9jS35_m3Rbw4XZosIwmYWuHqS6wQ)**
