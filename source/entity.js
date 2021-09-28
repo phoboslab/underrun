@@ -6,7 +6,7 @@ class entity_t {
 		t.vx = t.vy = t.vz = t.ax = t.ay = t.az = 0;
 		t.f = friction;
 		t.s = sprite;
-		t.h = 7;
+		t.h = 5;
 
 		t._init(init_param);
 		entities.push(t);

@@ -1,9 +1,11 @@
+// GLOBAL VARIABLES
+var SPEED = 96;
+
 
 class entity_plasma_t extends entity_t {
 	_init(angle) {
-		var speed = 96;
-		this.vx = _math.cos(angle) * speed;
-		this.vz = _math.sin(angle) * speed;
+		this.vx = _math.cos(angle) * SPEED;
+		this.vz = _math.sin(angle) * SPEED;
 	}
 
 	_render() {

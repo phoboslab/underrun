@@ -1,3 +1,8 @@
+var SPEED = 160,
+	HEALTH = 7,
+    RANGE = 70,
+	NUM_PARTS = 2;
+
 
 class entity_spider_t extends entity_t {
 	_init() {
@@ -5,6 +10,7 @@ class entity_spider_t extends entity_t {
 		this._select_target_counter = 0;
 		this._target_x = this.x;
 		this._target_z = this.z;
+		this.h = HEALTH;
 	}
 	
 	_update() {
@@ -18,15 +24,15 @@ class entity_spider_t extends entity_t {
 		t._select_target_counter -= time_elapsed;
 
 		// select new target after a while
-		if (t._select_target_counter < 0 && dist < 64) {
+		if (t._select_target_counter < 0 && dist < RANGE) {
 			t._select_target_counter = _math.random() * 0.5 + 0.3;
 			t._target_x = entity_player.x;
 			t._target_z = entity_player.z;
 		}
 		
 		// set velocity towards target
-		t.ax = _math.abs(txd) > 2 ? (txd > 0 ? -160 : 160) : 0;
-		t.az = _math.abs(tzd) > 2 ? (tzd > 0 ? -160 : 160) : 0;
+		t.ax = _math.abs(txd) > 2 ? (txd > 0 ? -SPEED : SPEED) : 0;
+		t.az = _math.abs(tzd) > 2 ? (tzd > 0 ? -SPEED : SPEED) : 0;
 
 		super._update();
 		this._animation_time += time_elapsed;
@@ -35,9 +41,9 @@ class entity_spider_t extends entity_t {
 
 	_receive_damage(from, amount) {
 		super._receive_damage(from, amount);
-		this.vx = from.vx;
-		this.vz = from.vz;
-		this._spawn_particles(5);
+		this.vx = from.vx + 1;
+		this.vz = from.vz + 1;
+		this._spawn_particles(NUM_PARTS);
 	}
 
 	_check(other) {
@@ -55,8 +61,8 @@ class entity_spider_t extends entity_t {
 
 		// hurt player
 		else if (other instanceof entity_player_t) {
-			this.vx *= -1.5;
-			this.vz *= -1.5;
+			this.vx *= -1;
+			this.vz *= -1;
 			other._receive_damage(this, 1);
 		}
 	}
