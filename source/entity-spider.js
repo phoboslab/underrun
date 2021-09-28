@@ -35,8 +35,8 @@ class entity_spider_t extends entity_t {
 
 	_receive_damage(from, amount) {
 		super._receive_damage(from, amount);
-		this.vx = from.vx;
-		this.vz = from.vz;
+		this.vx = from.vx - 1;
+		this.vz = from.vz - 1;
 		this._spawn_particles(5);
 	}
 

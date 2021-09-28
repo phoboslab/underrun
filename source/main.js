@@ -11,10 +11,11 @@ audio_init(function(){
 				
 			load_image('q2', function() {
 				terminal_hide();
+				//console.log("renderer bind image complete.")
 				renderer_bind_image(this);
 				next_level(game_tick);
 			});
-			
+			//console.log("Game loaded.")
 		});
 	};
 

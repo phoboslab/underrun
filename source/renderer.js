@@ -106,24 +106,35 @@ function renderer_init() {
 	enable_vertex_attrib('p', 3, 8, 0);
 	enable_vertex_attrib('uv', 2, 8, 3);
 	enable_vertex_attrib('n', 3, 8, 5);
+
+	//console.log("renderer_init completed.")
 }
 
 function renderer_bind_image(image) {
 	var texture_2d = gl.TEXTURE_2D;
 	gl.bindTexture(texture_2d, gl.createTexture());
+	//console.log("Texture created.");
 	gl.texImage2D(texture_2d, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+	//console.log("RGBA check.");
 	gl.texParameteri(texture_2d, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+	//console.log("TEXTURE_MAG_FILTER check.");
 	gl.texParameteri(texture_2d, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+	//console.log("TEXTURE_MIN_FILTER check.");
 	gl.texParameteri(texture_2d, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+	//console.log("TEXTURE_WRAP_S check.");
 	gl.texParameteri(texture_2d, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+	//console.log("TEXTURE_WRAP_T check.");
 }
 
 function renderer_prepare_frame() {
+	//console.log("Renderer prepare frame start.")
 	num_verts = level_num_verts;
 	num_lights = 0;
 
 	// reset all lights
 	light_data.fill(1);
+
+	//console.log("Renderer prepare frame complete.")
 }
 
 function renderer_end_frame() {

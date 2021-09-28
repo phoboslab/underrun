@@ -138,6 +138,7 @@ function terminal_run_intro(callback) {
 			terminal_run_garbage(callback);
 		}, 4000);
 	});
+	console.log("Running Intro.")
 }
 
 function terminal_run_garbage(callback) {

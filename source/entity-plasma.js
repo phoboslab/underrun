@@ -1,7 +1,7 @@
 
 class entity_plasma_t extends entity_t {
 	_init(angle) {
-		var speed = 96;
+		var speed = 120;
 		this.vx = _math.cos(angle) * speed;
 		this.vz = _math.sin(angle) * speed;
 	}
