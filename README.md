@@ -11,8 +11,7 @@
 #### Updated and expanded by: [skunk-ink](https://github.com/skunk-ink/underrun)
 
 
-**[PLAY NOW!](https://homescreen.hns.siasky.net/#/skylink/AQBHlfViZErCILTSEE9jS35_m3Rbw4XZosIwmYWuHqS6wQ)**
+[PLAY NOW!](https://homescreen.hns.siasky.net/#/skylink/AQBHlfViZErCILTSEE9jS35_m3Rbw4XZosIwmYWuHqS6wQ)
 
-MIT Licensed.
 
-Please be aware that this projects makes use of the Sonant-X library (albeit heavily modified) which is published under the zlib license.
+***MIT Licensed -*** *Please be aware that this projects makes use of the Sonant-X library (albeit heavily modified) which is published under the zlib license.*
