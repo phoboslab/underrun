@@ -1,8 +1,11 @@
-# UNDERRUN - A JS13k GAME
+# UNDERRUN
 
-My entry for the 2018 [js13k](https://js13kgames.com/) competition.
+[![Add to Homescreen](https://siasky.net/CADKZ7bTyVRjMmyMnEsUKDidqdmdaNHaJP25cp_3YGQlkg)](https://homescreen.hns.siasky.net/#/skylink/AQBHlfViZErCILTSEE9jS35_m3Rbw4XZosIwmYWuHqS6wQ)
 
-Play here: https://phoboslab.org/underrun/
+## Original Concept by [phoboslab](https://github.com/phoboslab/underrun)
+## Updated and expanded by [skunk-ink](https://github.com/skunk-ink/underrun)
+
+Play here: 
 
 MIT Licensed.
 
