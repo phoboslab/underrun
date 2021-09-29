@@ -36,7 +36,7 @@ sed -e '/GAME_SOURCE/{r build/underrun.min.js' -e 'd}' source/html-template.html
 zip -9 build/underrun.zip m/q2.png m/l1.png m/l2.png m/l3.png underrun.html
 ls -la build/
 mv underrun.html build/index.html
-cp -r m/ build/m/
-cp -r img/ build/img
+cp -r m/ build/
+cp -r img/ build/
 mv build/img/favicon.png build/favicon.ico
 cp source/manifest.json build/manifest.json

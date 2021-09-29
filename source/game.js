@@ -84,7 +84,7 @@ function load_level(id, callback) {
 						push_floor(x * 8, y * 8, tile-1);
 
 						// replicators (need to assign colour for custom spawn points)
-						if (random_int(0, 12 - (id * 2)) == 0) {
+						if (random_int(0, 16 - (id * 2)) == 0) {
 							new entity_spider_t(x*8, 0, y*8, 5, 27);
 						}
 						else if (random_int(0, 100) == 0) {
@@ -97,6 +97,11 @@ function load_level(id, callback) {
 						level_data[index] = 8;
 						new entity_cpu_t(x*8, 0, y*8, 0, 18);
 						cpus_total++;
+					}
+
+					// Replicator spawn ()
+					if (color_key === 0xff0) {
+						new entity_spider_t(x*8, 0, y*8, 5, 27);
 					}
 
 					// Goa'uld (red)
